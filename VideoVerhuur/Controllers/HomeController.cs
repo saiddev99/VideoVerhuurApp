@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
+using System.Text.Json;
 using VideoVerhuur.Models;
 using VideoVerhuur.Repositories;
 using VideoVerhuurLibrary.Models;
@@ -16,28 +17,38 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        InlogViewModel inlogViewModel = new InlogViewModel();
+        string? ingelogd = HttpContext.Session.GetString("ingelogd");
 
-        return View(inlogViewModel);
-    }
-
-    public IActionResult Inloggen(InlogViewModel inlogViewModel)
-    {
-        Klant? klant = _klantRepository.GetKlant(inlogViewModel.Naam, inlogViewModel.PostCode);
-
-        if (!inlogViewModel.Naam.IsNullOrEmpty())
+        if (ingelogd == null)
         {
-            if (inlogViewModel.Naam != klant.Naam)
-            {
-                ViewBag.ErrorMessage = "Onbekende klant, probeer opnieuw.";
-            }
+            InlogViewModel? inlogViewModel = new InlogViewModel();
+            return View(inlogViewModel);
         }
         else
         {
-            ViewBag.ErrorMessage = "";
+            return RedirectToAction("Index", "Genre");
         }
+        
+    }
 
-        return View(nameof(Index), inlogViewModel);
+    public IActionResult Inloggen(InlogViewModel? inlogViewModel)
+    {
+        Klant? klant = _klantRepository.GetKlant(inlogViewModel.Naam, inlogViewModel.PostCode);
+
+        if (klant == null)
+        {
+            inlogViewModel = null;
+           ViewBag.ErrorMessage = "Onbekende klant, probeer opnieuw.";
+            return View(nameof(Index), inlogViewModel);
+        }
+        else
+        {
+            string fullname = $"{klant.Voornaam} {klant.Naam}";
+            HttpContext.Session.SetString("klant", JsonSerializer.Serialize(klant));
+            HttpContext.Session.SetString("ingelogd", fullname);
+            return RedirectToAction("Index", "Genre");   
+        }
+        
     }
 
   

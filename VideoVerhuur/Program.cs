@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using VideoVerhuur.Filters;
 using VideoVerhuur.Repositories;
 using VideoVerhuurLibrary.Models;
 
@@ -7,8 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddTransient<IKlantRepository,
  SQLKlantRepository>();
+builder.Services.AddTransient<IGenreRepository,
+ SQLGenreRepository>();
+builder.Services.AddTransient<IFilmRepository,
+ SQLFilmRepository>();
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSession();
 
 builder.Services.AddDbContext<VideoVerhuurContext>(options =>
  options.UseSqlServer(
@@ -34,6 +41,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -1,0 +1,41 @@
+﻿@model List<Film>
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Afrekenen</h1>
+
+
+@if (Model != null)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Titel</th>
+                <th>Prijs</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Titel</td>
+                    <td>@Html.DisplayFor(x => item.Prijs)</td>
+                </tr>
+            }
+            <tr>
+                <th>Totaal</th>
+                <th>@(String.Format("{0:€ #,##0.00}", ViewBag.Totaal))</th>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Wordt gefactureerd aan: </p>
+    <p>@ViewBag.Klant.Naam</p>
+    <p>@ViewBag.Klant.Straat_Nr</p>
+    <p>@ViewBag.Klant.Gemeente</p>
+}
+
+
+
+<a asp-action="Home" class="btn btn-primary">Terug naar inlogpagina.</a>

@@ -1,4 +1,6 @@
-﻿namespace VideoVerhuur.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace VideoVerhuur.Models;
 
 public class InlogViewModel
 {

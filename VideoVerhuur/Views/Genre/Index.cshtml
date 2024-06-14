@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Genres";
+}
+@model List<Genre>
+
+<div class="balk"><p>Klik op het gewenste GENRE</p></div>
+@foreach (var item in Model)
+{
+    <a asp-action="Detail" asp-route-id="@item.GenreId" class="genre-actions">@item.GenreNaam </a>
+}
+
+
+

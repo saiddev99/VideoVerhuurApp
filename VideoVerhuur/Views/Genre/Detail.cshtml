@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Detail";
+}
+@model Genre 
+
+<h1>@Model.GenreNaam</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Titel</th>
+            <th>Prijs</th>
+            <th>In voorraad</th>
+            <th>Huren</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        @foreach (var item in Model.Films)
+        {
+            <tr>
+                <td>@item.Titel</td>
+                <td>@Html.DisplayFor(x => item.Prijs)</td>
+                <td>@item.InVoorraad</td>
+                @if (item.InVoorraad > 0)
+                {
+                    <td>
+                        <a asp-action="Toevoegen" asp-route-id="@item.FilmId">
+                            <img width="25px" src="/img/plus.png" alt="Plus icoon" />
+                        </a>
+                    </td>
+                }
+                else
+                {
+                    <td></td>    
+                }
+
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+       <tr>
+            <td colspan="4"><a asp-action="Index" class="btn btn-primary">Terug naar genre-overzicht</a></td>
+       </tr>
+    </tfoot>
+</table>
+
+@if (ViewBag.IsToegevoegd == true)
+{
+    <p class="error">@ViewBag.Error</p>
+}

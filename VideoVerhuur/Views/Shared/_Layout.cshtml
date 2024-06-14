@@ -22,9 +22,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @await Component.InvokeAsync("Winkelmand")
                     </ul>
                 </div>
             </div>
@@ -32,7 +30,8 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            <img src="/img/videoVerhuur.jpg" style="width:40%;" alt="vdabmovies" />
+            <img src="/img/videoVerhuur.jpg" style="width:300px;" alt="vdabmovies" />
+            <div>@await Component.InvokeAsync("Begroeting")</div>
             @RenderBody()
         </main>
     </div>

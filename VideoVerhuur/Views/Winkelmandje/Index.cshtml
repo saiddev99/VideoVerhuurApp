@@ -1,0 +1,42 @@
+﻿@model List<Film>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Winkelmandje</h1>
+
+@if (Model != null)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Titel</th>
+                <th>Prijs</th>
+                <th>Verwijderen</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Titel</td>
+                    <td>@Html.DisplayFor(x => item.Prijs)</td>
+                    <td>
+                        <a asp-action="Verwijdering" asp-route-id="@item.FilmId">
+                            <img width="25px" src="/img/delete.png" alt="Plus icoon" />
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="Genre" asp-action="Detail" asp-route-id="@ViewBag.lastAddedFilm" class="btn btn-primary">Verder winkelen</a>
+    <a asp-controller="Afrekening" asp-action="Index" class="btn btn-secondary">Afrekenen</a>
+}
+else
+{
+    <p class="lead">"Lege winkelmandje."</p>
+    <a asp-controller="Genre" asp-action="Index" class="btn btn-primary">Terug naar genre-overzicht</a>
+}
+

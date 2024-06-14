@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+
 @model InlogViewModel
 
 <form asp-action="Inloggen" method="get">
@@ -10,7 +11,10 @@
     <label asp-for="PostCode"></label>
     <input asp-for="PostCode" />
    
-    <p>@ViewBag.ErrorMessage</p>
+    @if (Model == null)
+    {
+        <p class="error">@ViewBag.ErrorMessage</p>
+    }
     
     <input class="btn btn-primary" type="submit" value="Zoeken" />
 </form>
